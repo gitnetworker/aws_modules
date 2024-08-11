@@ -107,3 +107,25 @@ module "access_policies" {
     }
   }
 }
+
+#module "my_vpc" {
+#source         = "./modules/vpc"
+#vpc_cidr_block = "172.15.0.0/16"
+#tags = {
+#Name = "modules_vpc"
+#}
+#}
+
+module "my_vpc" {
+  source     = "./modules/vpc"
+  cidr_block = "172.15.0.0/16"
+  name       = "modules_vpc"
+}
+
+
+
+
+module "my_security_group" {
+  source = "./modules/security_group"
+  vpc_id = module.my_vpc.my_vpc_id
+}
