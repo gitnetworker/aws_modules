@@ -13,3 +13,7 @@ resource "aws_vpc" "this" {
     Name = var.name
   }
 }
+
+
+#map(list(string) map(string))
+#map(object)
