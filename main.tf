@@ -108,13 +108,7 @@ module "access_policies" {
   }
 }
 
-#module "my_vpc" {
-#source         = "./modules/vpc"
-#vpc_cidr_block = "172.15.0.0/16"
-#tags = {
-#Name = "modules_vpc"
-#}
-#}
+
 
 module "my_vpc" {
   source     = "./modules/vpc"
@@ -122,64 +116,12 @@ module "my_vpc" {
   name       = "modules_vpc"
 }
 
-/* module "my_security_group" {
-  source = "./modules/security_group"
+
+module "sec-groups" {
+  source  = "app.terraform.io/CLOUD_27/sec-groups/aws"
+  version = "2.0.0"
+  # insert required variables here
+  //vpc_id = aws_vpc.this.id
   vpc_id = module.my_vpc.my_vpc_id
-} */
-
-module "web_sg" {
-  source      = "./modules/security_group"
-  name        = "web-security-group"
-  description = "Security group for web servers"
-  vpc_id      = module.my_vpc.my_vpc_id
-  
-  ingress_rules = [
-    {
-      from_port   = 80
-      to_port     = 80
-      protocol    = "tcp"
-      cidr_blocks = ["0.0.0.0/0"]
-    },
-    {
-      from_port   = 443
-      to_port     = 443
-      protocol    = "tcp"
-      cidr_blocks = ["0.0.0.0/0"]
-    }
-  ]
-
-  egress_rules = [
-    {
-      from_port   = 0
-      to_port     = 0
-      protocol    = "-1"
-      cidr_blocks = ["0.0.0.0/0"]
-    }
-  ]
 }
 
-
-module "db_sg" {
-  source      = "./modules/security_group"
-  name        = "db-security-group"
-  description = "Security group for database servers"
-  vpc_id      = module.my_vpc.my_vpc_id
-
-  ingress_rules = [
-    {
-      from_port   = 5432
-      to_port     = 5432
-      protocol    = "tcp"
-      cidr_blocks = ["10.0.0.0/16"]
-    }
-  ]
-
-  egress_rules = [
-    {
-      from_port   = 0
-      to_port     = 0
-      protocol    = "-1"
-      cidr_blocks = ["0.0.0.0/0"]
-    }
-  ]
-}
