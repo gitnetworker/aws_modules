@@ -2,17 +2,45 @@ name: Terraform Apply
 
 on:
   push:
-    branches: ["main"]
+    branches: [ "main" ]
   workflow_dispatch:
-    
-
+    inputs: 
+      run_apply:
+        type: string
+        required: false
+        default: default
+ 
 env:
-  AWS_ACCESS_KEY_ID: ${{}}
-  AWS_SECRET_ACCESS_KEY: ${{}}
+  AWS_ACCESS_KEY_ID: ${{ secrets.MY_TERRAFORM_LOGIN_AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.MY_TERRAFORM_LOGIN_AWS_SECRET_ACCESS_KEY }}
   AWS_REGION: us-east-1
 
 jobs:
-  terraform:
+  #1st job
+  plan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout
+
+      - name: My 1st TF Setup
+        uses: hashicorp/setup-terraform
+        with:
+          cli_config_credentials_token: ${{ secrets.MY_TERRAFORM_LOGIN_TOKEN }}
+
+      - name: Run TF init
+        run: terraform init
+     
+      - name: Check TF Format
+        run: terraform fmt -check -recursive
+
+      - name: Run TF plan
+        run: terraform plan
+
+  #2nd job
+  apply:
+    needs: [ plan ]
+    if: ${{ github.event.inputs.run_apply }}
     runs-on: ubuntu-latest
 
     steps:
@@ -29,8 +57,5 @@ jobs:
       - name: Check TF Format
         run: terraform fmt -check -recursive
 
-      - name: Run TF plan
-        run: terraform plan
-      
       - name: Run TF Apply
         run: terraform apply -auto-approve
