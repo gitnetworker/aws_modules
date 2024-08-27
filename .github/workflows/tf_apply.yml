@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
     inputs: 
       run_apply:
-        description: Selection 
+        description: Selection to be applied only with tf apply
         type: boolean
         required: false
         default: false
