@@ -34,4 +34,3 @@ jobs:
       
       - name: Run TF Apply
         run: terraform apply -auto-approve
-        
