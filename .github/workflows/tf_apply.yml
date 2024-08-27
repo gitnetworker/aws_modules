@@ -6,6 +6,7 @@ on:
   workflow_dispatch:
     inputs: 
       run_apply:
+        description: Selection 
         type: boolean
         required: false
         default: false
