@@ -6,9 +6,9 @@ on:
   workflow_dispatch:
     inputs: 
       run_apply:
-        type: string
+        type: boolean
         required: false
-        default: default
+        default: false
  
 env:
   AWS_ACCESS_KEY_ID: ${{ secrets.MY_TERRAFORM_LOGIN_AWS_ACCESS_KEY_ID }}
@@ -16,15 +16,14 @@ env:
   AWS_REGION: us-east-1
 
 jobs:
-  #1st job
+  # 1st job
   plan:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout
+      - uses: actions/checkout@v4
 
       - name: My 1st TF Setup
-        uses: hashicorp/setup-terraform
+        uses: hashicorp/setup-terraform@v2
         with:
           cli_config_credentials_token: ${{ secrets.MY_TERRAFORM_LOGIN_TOKEN }}
 
@@ -37,19 +36,18 @@ jobs:
       - name: Run TF plan
         run: terraform plan
 
-  #2nd job
+  # 2nd job
   apply:
     needs: [ plan ]
-    if: ${{ github.event.inputs.run_apply }}
+    if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.run_apply == 'true' }}
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout
+      - uses: actions/checkout@v4
 
       - name: My 1st TF Setup
-        uses: hashicorp/setup-terraform
+        uses: hashicorp/setup-terraform@v2
         with:
-          cli_config_credentials_token: ${{}}
+          cli_config_credentials_token: ${{ secrets.MY_TERRAFORM_LOGIN_TOKEN }}
 
       - name: Run TF init
         run: terraform init
