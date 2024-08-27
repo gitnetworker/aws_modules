@@ -4,6 +4,12 @@ on:
   #push:
     #branches: ["main"]
   workflow_dispatch:
+    inputs:
+      run_destroy:
+        description: Runs tf destroy ?
+        type: boolean
+        required: false
+        default: false
     
 
 env:
@@ -12,14 +18,14 @@ env:
   AWS_REGION: us-east-1
 
 jobs:
-  terraform:
+  plan:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout
+      - uses: actions/checkout@v4
 
       - name: My 1st TF Setup
-        uses: hashicorp/setup-terraform
+        uses: hashicorp/setup-terraform@v2
         with:
           cli_config_credentials_token: ${{}}
 
@@ -29,8 +35,33 @@ jobs:
       - name: Check TF Format
         run: terraform fmt -check -recursive
 
-      - name: Run TF plan destroy
-        run: terraform plan -destroy
-      
+      - name: Run TF plan
+        run: terraform plan
+
       - name: Run TF Apply
         run: terraform destroy -auto-approve
+        #if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.run_apply == 'true' }}
+
+  destroy:
+      if: ${{ github.event.inputs.destroy == 'true' }}
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v4
+
+        - name: My 1st TF Setup
+          uses: hashicorp/setup-terraform@v2
+          with:
+            li_config_credentials_token: ${{}}
+
+        - name: Run TF init
+          run: terraform init
+     
+        - name: Check TF Format
+          run: terraform fmt -check -recursive
+
+        - name: Run TF plan destroy
+          run: terraform plan -destroy
+      
+        - name: Run TF Apply
+          run: terraform destroy -auto-approve
+          if: ${{ github.event.inputs.run_destroy == 'true' }}
