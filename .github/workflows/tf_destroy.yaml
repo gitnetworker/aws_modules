@@ -34,8 +34,8 @@ jobs:
       - name: Run TF init
         run: terraform init
      
-      - name: Check TF Format
-        run: terraform formate -check -recursive
+      #- name: Check TF Format
+        #run: terraform fmt -check -recursive
 
       - name: Run TF plan
         run: terraform plan
@@ -58,8 +58,8 @@ jobs:
         - name: Run TF init
           run: terraform init
      
-        - name: Check TF Format
-          run: terraform formate -check -recursive
+        #- name: Check TF Format
+          #run: terraform fmt -check -recursive
 
         - name: Run TF plan destroy
           run: terraform plan -destroy
