@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
     inputs:
       run_destroy:
-        description: Runs tf destroy ?
+        description: Runs tf apply or destroy ?
         type: boolean
         required: false
         default: false
@@ -18,7 +18,9 @@ env:
   AWS_REGION: us-east-1
 
 jobs:
-  plan:
+  terraform:
+    #if: ${{ github.event.inputs.run_destroy == 'false' || github.ref = 'refs/heads/main' }}
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' || github.event.inputs.run_apply_or_destroy != 'destroy' }}
     runs-on: ubuntu-latest
 
     steps:
