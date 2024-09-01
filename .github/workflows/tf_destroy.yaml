@@ -12,8 +12,8 @@ on:
         default: false
 
 env:
-  AWS_ACCESS_KEY_ID: ${{}}
-  AWS_SECRET_ACCESS_KEY: ${{}}
+  AWS_ACCESS_KEY_ID: ${{ secrets.MY_TERRAFORM_LOGIN_AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.MY_TERRAFORM_LOGIN_AWS_SECRET_ACCESS_KEY }}
   AWS_REGION: us-east-2
 
 jobs:

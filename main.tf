@@ -117,7 +117,7 @@ module "my_vpc" {
 
 module "sec-groups" {
   source  = "app.terraform.io/CLOUD_27/sec-groups/aws"
-  version = "2.0.0"
+  version = "4.0.0"
   # insert required variables here
   //vpc_id = aws_vpc.this.id
   vpc_id = module.my_vpc.my_vpc_id
