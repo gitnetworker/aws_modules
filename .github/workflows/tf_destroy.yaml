@@ -10,7 +10,6 @@ on:
         type: boolean
         required: false
         default: false
-    
 
 env:
   AWS_ACCESS_KEY_ID: ${{}}
