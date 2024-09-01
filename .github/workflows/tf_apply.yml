@@ -33,7 +33,7 @@ jobs:
         run: terraform init
      
       - name: Check TF Format
-        run: terraform fmt -check -recursive
+        run: terraform formate -check -recursive
 
       - name: Run TF plan
         run: terraform plan
@@ -58,7 +58,7 @@ jobs:
         run: terraform init
      
       - name: Check TF Format
-        run: terraform fmt -check -recursive
+        run: terraform formate -check -recursive
 
       - name: Run TF Apply
         run: terraform apply -auto-approve
