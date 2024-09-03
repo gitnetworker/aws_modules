@@ -108,7 +108,6 @@ module "access_policies" {
   }
 }
 
-
 module "my_vpc" {
   source     = "./modules/vpc"
   cidr_block = "172.15.0.0/16"
