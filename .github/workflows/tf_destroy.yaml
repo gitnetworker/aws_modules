@@ -52,7 +52,7 @@ jobs:
         - name: My 1st TF Setup
           uses: hashicorp/setup-terraform@v2
           with:
-            li_config_credentials_token: ${{}}
+            cli_config_credentials_token: ${{ secrets.MY_TERRAFORM_LOGIN_TOKEN }}
 
         - name: Run TF init
           run: terraform init
