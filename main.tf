@@ -108,6 +108,7 @@ module "access_policies" {
   }
 }
 
+
 module "my_vpc" {
   source     = "./modules/vpc"
   cidr_block = "172.15.0.0/16"
@@ -121,4 +122,3 @@ module "sec-groups" {
   //vpc_id = aws_vpc.this.id
   vpc_id = module.my_vpc.my_vpc_id
 }
-
