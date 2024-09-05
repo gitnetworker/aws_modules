@@ -41,7 +41,7 @@ jobs:
 
       - name: Run TF Apply
         run: terraform destroy -auto-approve
-        #if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.run_apply == 'true' }}
+        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.run_apply == 'true' }}
 
   destroy:
       if: ${{ github.event.inputs.destroy == 'true' }}
